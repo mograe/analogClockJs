@@ -47,17 +47,31 @@ function AnalogClock(id, option) {
 	this.panel.style.position = "relative";
 	this.container.appendChild(this.panel);
 
+	var text = document.createElement("h4");
+	text.style.width = "100%";
+	text.style.textAlign = "center";
+	text.style.fontWeight = "normal";
+	text.style.fontSize = this.width / 15 + "px";
+	text.style.marginTop = this.width * 0.3 + "px";
+	text.style.color = this.foreColor;
+	text.style.visibility = 'hidden';
+	text.innerHTML = 'Hello World';
+	if (this.width >= 100)//hide if the width is not enough to show the digital clock
+		this.panel.appendChild(text);
+
 	//the digital clock on the panel
 	var label = document.createElement("h4");//width:80%;line-height:40px;text-align:center;margin-top:250px;color:#333;
 	label.style.width = "100%";
 	label.style.textAlign = "center";
 	label.style.fontWeight = "normal";
 	label.style.fontSize = this.width / 15 + "px";
-	label.style.marginTop = this.width * 0.6 + "px";
+	label.style.marginTop = this.width * 0.2 + "px";
 	label.style.color = this.foreColor;
 	label.innerHTML = dateTimeFormat(new Date());
 	if (this.width >= 100)//hide if the width is not enough to show the digital clock
 		this.panel.appendChild(label);
+
+
 
 	//the container of hour numbers on the panel
 	var ul = document.createElement("ul");//padding:0;margin:0;list-style:none;position:absolute;left:180px;            
@@ -176,6 +190,9 @@ function AnalogClock(id, option) {
 		this.panel.appendChild(point);
 
 
+
+
+
 	//start the clock (the animation part)
 	this.loop = setInterval(function () {
 		var now = new Date();
@@ -185,6 +202,13 @@ function AnalogClock(id, option) {
 		var roM = 1.0 * 360 / 60 * now.getMinutes();
 		var roH = 1.0 * 360 / 12 * (now.getHours() % 12) + 1.0 * 360 / 12 * (now.getMinutes() / 60);
 
+		if(roS >= 30 && roS < 60){
+		text.style.visibility = 'visible';
+		}
+		else {
+		text.style.visibility = 'hidden';
+		}
+	
 		sec.style.transform = 'rotate(' + roS + 'deg)';
 		min.style.transform = 'rotate(' + roM + 'deg)';
 		hour.style.transform = 'rotate(' + roH + 'deg)';
